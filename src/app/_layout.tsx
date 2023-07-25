@@ -16,6 +16,7 @@ const Root: FC = () => {
               options={{
                 headerShown: false,
                 contentStyle: { backgroundColor: MD2Colors.white },
+                statusBarStyle: 'dark',
               }}
             />
             <Stack.Screen
@@ -23,6 +24,7 @@ const Root: FC = () => {
               options={{
                 title: 'Анализы',
                 contentStyle: { backgroundColor: MD2Colors.white },
+                statusBarStyle: 'dark',
               }}
             />
           </Stack>

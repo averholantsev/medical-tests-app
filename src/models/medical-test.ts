@@ -1,12 +1,17 @@
 import { createModel } from '@rematch/core';
 import { IRootModel } from '.';
-import { IMedicalTest } from '../types/medical-test';
+import { IMedicalDictionary, IMedicalTest } from '../types/medical-test';
 import { DocumentPickerAsset } from 'expo-document-picker';
 import MedicalService from '../services/MedicalService';
 import { resetState, setState } from '../redux/utils';
+import { ImagePickerAsset } from 'expo-image-picker';
+
+type IDictionary = Record<string, IMedicalDictionary>;
 
 interface IState {
   result: IMedicalTest;
+  dictionary: IDictionary | null;
+  error: string | null;
 }
 
 const initialState: IState = {
@@ -36,6 +41,8 @@ const initialState: IState = {
     limfocity: 0,
     limfocity_percent: 0,
   },
+  dictionary: null,
+  error: null,
 };
 
 export const medicalTest = createModel<IRootModel>()({
@@ -45,13 +52,32 @@ export const medicalTest = createModel<IRootModel>()({
     resetState: resetState(initialState),
   },
   effects: (d) => ({
-    async getResults(data: DocumentPickerAsset) {
+    async getResults(data: DocumentPickerAsset | ImagePickerAsset) {
       try {
         const response = await MedicalService.uploadMedicalTest(data);
         const result = JSON.parse(response.body) as IMedicalTest;
-        console.log('getResults', result);
 
         d.medicalTest.setState({ result });
+
+        return true;
+      } catch (error) {
+        console.error('getResults', error);
+        d.medicalTest.setState({
+          error: 'При попытке распознания результатов произошла ошибка',
+        });
+
+        return false;
+      }
+    },
+    async getDictionary() {
+      try {
+        const response = await MedicalService.getMedicalTestDictionary();
+        d.medicalTest.setState({
+          dictionary: response.data.reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {} as IDictionary),
+        });
 
         return true;
       } catch (error) {

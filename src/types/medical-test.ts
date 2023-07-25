@@ -48,3 +48,12 @@ export interface IMedicalTest {
   // Лимфоциты %
   limfocity_percent: number;
 }
+
+export interface IMedicalDictionary {
+  id: string;
+  name: string;
+  description: string;
+  measureUnit: string;
+  measureNormMin: number;
+  measureNormMax: number;
+}

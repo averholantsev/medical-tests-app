@@ -1,6 +1,7 @@
 import { Layout } from '@/src/components';
 import { FC, useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 import styled from 'styled-components/native';
 import { ActivityIndicator, Button, MD2Colors, Text } from 'react-native-paper';
@@ -29,7 +30,7 @@ const HomeLayout: FC = () => {
         type: ['image/jpeg', 'image/png', 'application/pdf'],
       });
 
-      console.log('result', result);
+      console.log('file', result);
 
       if (!result.canceled && result.assets.length) {
         const isDone = await getResults(result.assets[0]);
@@ -45,6 +46,57 @@ const HomeLayout: FC = () => {
     }
   };
 
+  const pickImage = async () => {
+    setIsLoading(true);
+
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        quality: 1,
+      });
+
+      console.log('image', result);
+
+      if (!result.canceled && result.assets.length) {
+        const isDone = await getResults(result.assets[0]);
+
+        if (isDone) {
+          push('/medical-test');
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка отправки изображения на сервер', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const pickPhoto = async () => {
+    setIsLoading(true);
+
+    try {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        cameraType: ImagePicker.CameraType.back,
+        quality: 0.5,
+      });
+
+      console.log('photo', result);
+
+      if (!result.canceled && result.assets.length) {
+        const isDone = await getResults(result.assets[0]);
+
+        if (isDone) {
+          push('/medical-test');
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка отправки фотки на сервер', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const content = isLoading ? (
     <ActivityIndicator size="large" color={MD2Colors.tealA700} animating />
   ) : (
@@ -55,17 +107,13 @@ const HomeLayout: FC = () => {
       >
         Расшифровать ОАК
       </Text>
-      <Button
-        icon="image"
-        mode="contained"
-        onPress={() => push('/medical-test')}
-      >
+      <Button icon="image" mode="contained" onPress={pickImage}>
         Загрузить изображение
       </Button>
       <Button icon="text-box" mode="contained" onPress={pickDocument}>
         Загрузить документ
       </Button>
-      <Button icon="camera" mode="contained">
+      <Button icon="camera" mode="contained" onPress={pickPhoto}>
         Сделать фото
       </Button>
     </>
