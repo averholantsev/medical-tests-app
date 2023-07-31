@@ -71,32 +71,6 @@ const HomeLayout: FC = () => {
     }
   };
 
-  const pickPhoto = async () => {
-    setIsLoading(true);
-
-    try {
-      let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        cameraType: ImagePicker.CameraType.back,
-        quality: 0.5,
-      });
-
-      console.log('photo', result);
-
-      if (!result.canceled && result.assets.length) {
-        const isDone = await getResults(result.assets[0]);
-
-        if (isDone) {
-          push('/medical-test');
-        }
-      }
-    } catch (error) {
-      console.error('Ошибка отправки фотки на сервер', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const content = isLoading ? (
     <ActivityIndicator size="large" color={MD2Colors.tealA700} animating />
   ) : (
@@ -112,9 +86,6 @@ const HomeLayout: FC = () => {
       </Button>
       <Button icon="text-box" mode="contained" onPress={pickDocument}>
         Загрузить документ
-      </Button>
-      <Button icon="camera" mode="contained" onPress={pickPhoto}>
-        Сделать фото
       </Button>
     </>
   );
