@@ -1,8 +1,8 @@
 import { Layout } from '@/src/components';
-import { FC, useState } from 'react';
+import { FC, useLayoutEffect, useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
-
+import * as SecureStore from 'expo-secure-store';
 import styled from 'styled-components/native';
 import { ActivityIndicator, Button, MD2Colors, Text } from 'react-native-paper';
 import { useRouter } from 'expo-router';
@@ -18,10 +18,11 @@ const Wrapper = styled.View`
 const HomeLayout: FC = () => {
   const {
     medicalTest: { getResults },
+    profile: { setState: setProfileState },
   } = useAppDispatch();
   const { push } = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const pickDocument = async () => {
     setIsLoading(true);
@@ -70,6 +71,25 @@ const HomeLayout: FC = () => {
       setIsLoading(false);
     }
   };
+
+  useLayoutEffect(() => {
+    setIsLoading(true);
+    SecureStore.getItemAsync('accessToken')
+      .then((accessToken) => {
+        console.log({ accessToken });
+
+        if (accessToken) {
+          setProfileState({ isAuth: true });
+        } else {
+          push('/auth');
+        }
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      });
+  }, []);
 
   const content = isLoading ? (
     <ActivityIndicator size="large" color={MD2Colors.tealA700} animating />

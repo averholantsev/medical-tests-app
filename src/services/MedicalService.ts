@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import instance from '.';
+import instance from './axiosInstance';
 import { DocumentPickerAsset } from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { IMedicalDictionary } from '../types/medical-test';

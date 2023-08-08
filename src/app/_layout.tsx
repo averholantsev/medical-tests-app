@@ -27,6 +27,15 @@ const Root: FC = () => {
                 statusBarStyle: 'dark',
               }}
             />
+            <Stack.Screen
+              name="auth/index"
+              options={{
+                headerShown: false,
+                title: 'Авторизация',
+                contentStyle: { backgroundColor: MD2Colors.white },
+                statusBarStyle: 'dark',
+              }}
+            />
           </Stack>
         </SafeAreaProvider>
       </PaperProvider>

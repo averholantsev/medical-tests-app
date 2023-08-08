@@ -1,47 +1,50 @@
 import { FC } from 'react';
 import { MD2Colors, Text } from 'react-native-paper';
 import styled from 'styled-components/native';
-import CircleIcon from '@/assets/icons/circle-small.svg';
+import { IMedicalDictionary } from '@/src/types/medical-test';
+import LineChart from '../LineChart/LineChart';
 
 interface ITestRowProps {
   status: 'normal' | 'warning' | 'danger';
-  label: string;
+  dictionary: IMedicalDictionary;
   value: number;
 }
 
 const Wrapper = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
   padding: 10px;
   gap: 10px;
 `;
 
-const TextContainer = styled.View`
+const TextWrapper = styled.View`
   flex-direction: row;
-  gap: 4px;
-  flex: 0 1 auto;
+  justify-content: space-between;
+  gap: 10px;
 `;
 
-const TestRow: FC<ITestRowProps> = ({ label, value }) => {
+const TestRow: FC<ITestRowProps> = ({ dictionary, value }) => {
+  const { description, measureLabMin, measureLabMax } = dictionary;
+
   return (
     <Wrapper>
-      <TextContainer>
-        <CircleIcon
-          width={8}
-          height={8}
-          color={MD2Colors.greenA700}
-          style={{ margin: 2, marginTop: 7 }}
-        />
-        <Text variant="bodyMedium" style={{ color: MD2Colors.blueGrey700 }}>
-          {label}
+      <TextWrapper>
+        <Text
+          variant="bodyMedium"
+          style={{ color: MD2Colors.blueGrey700, maxWidth: 270 }}
+        >
+          {description}
         </Text>
-      </TextContainer>
-      <Text
-        variant="bodyMedium"
-        style={{ color: MD2Colors.grey900, fontWeight: '800' }}
-      >
-        {value}
-      </Text>
+        <Text
+          variant="bodyMedium"
+          style={{ color: MD2Colors.grey900, fontWeight: '800' }}
+        >
+          {value}
+        </Text>
+      </TextWrapper>
+      <LineChart
+        measureMin={measureLabMin}
+        measureMax={measureLabMax}
+        value={value}
+      />
     </Wrapper>
   );
 };

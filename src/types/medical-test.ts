@@ -49,11 +49,26 @@ export interface IMedicalTest {
   limfocity_percent: number;
 }
 
+export interface IMedicalDictionaryChild {
+  id: string;
+  gender: 'man' | 'woman' | 'all';
+  ageFrom: number | null;
+  ageTo: number | null;
+  measureNormMin: number;
+  measureNormMax: number;
+  measureIdealMin: number | null;
+  measureIdealMax: number | null;
+}
+
 export interface IMedicalDictionary {
   id: string;
   name: string;
-  description: string;
   measureUnit: string;
-  measureNormMin: number;
-  measureNormMax: number;
+  description: string;
+  measureLabMin: number;
+  measureLabMax: number;
+  decreasedTranscription: string | null;
+  increasedTranscription: string | null;
+  hint: string | null;
+  children: IMedicalDictionaryChild[];
 }

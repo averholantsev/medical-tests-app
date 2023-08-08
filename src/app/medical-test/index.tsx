@@ -1,6 +1,6 @@
 import { Layout, TestRow } from '@/src/components';
 import { useAppDispatch, useAppSelector } from '@/src/redux/utils';
-import { FC, useEffect } from 'react';
+import { FC, Fragment, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import {
   ActivityIndicator,
@@ -46,21 +46,17 @@ const MedicalTest: FC = () => {
   return (
     <Layout>
       <ScrollView>
-        {(Object.keys(medicalTest) as Array<keyof typeof medicalTest>).flatMap(
-          (key, index) =>
-            medicalTest[key] === 0 ? (
-              []
-            ) : (
-              <>
-                <TestRow
-                  key={`${key}_${index}`}
-                  status="normal"
-                  label={dictionary[key].description}
-                  value={medicalTest[key]}
-                />
-                <Divider style={{ marginHorizontal: 10 }} />
-              </>
-            )
+        {(Object.keys(medicalTest) as Array<keyof typeof medicalTest>).map(
+          (key, index) => (
+            <Fragment key={`${key}_${index}`}>
+              <TestRow
+                status="normal"
+                dictionary={dictionary[key]}
+                value={medicalTest[key]}
+              />
+              <Divider style={{ marginHorizontal: 10 }} />
+            </Fragment>
+          )
         )}
       </ScrollView>
     </Layout>
