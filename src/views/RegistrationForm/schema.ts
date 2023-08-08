@@ -6,6 +6,10 @@ import {
 } from '@/src/constants/validation';
 
 const schema = yup.object().shape({
+  firstName: yup.string().required(REQUIRED_FIELD),
+  lastName: yup.string().required(REQUIRED_FIELD),
+  birthday: yup.object().required(REQUIRED_FIELD),
+  gender: yup.string().required(REQUIRED_FIELD),
   email: yup.string().email(EMAIL_FIELD).required(REQUIRED_FIELD),
   password: yup
     .string()

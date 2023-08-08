@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import { MD2Colors, Text, TextInput, TextInputProps } from 'react-native-paper';
+import { TextInput, TextInputProps, HelperText } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 interface IFormTextFieldProps
@@ -23,7 +23,7 @@ export const FormTextField: FC<IFormTextFieldProps> = ({
   const { control } = useFormContext();
 
   const {
-    field: { ref, value, onChange: onChangeController, ...inputProps },
+    field: { value, onChange: onChangeController },
     fieldState: { error },
   } = useController({
     name,
@@ -49,12 +49,9 @@ export const FormTextField: FC<IFormTextFieldProps> = ({
         {...props}
       />
       {helperTextInner && (
-        <Text
-          variant="titleSmall"
-          style={{ color: hasError ? MD2Colors.red900 : MD2Colors.grey900 }}
-        >
+        <HelperText type={hasError ? 'error' : 'info'}>
           {helperTextInner}
-        </Text>
+        </HelperText>
       )}
     </StyledView>
   );

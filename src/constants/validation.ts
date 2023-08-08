@@ -14,3 +14,5 @@ export const FORMAT_NUMBER_ONLY = 'Значение должно быть чис
 export const FORMAT_INTEGER_ONLY = 'Значение должно быть целым числом';
 export const NUMBER_POSITIVE = 'Значение должно быть больше или равно 0';
 export const NOT_ZERO = 'Значение должно быть больше нуля';
+
+export const passwordRegexp = new RegExp('^[a-zA-Z0-9]+$');
