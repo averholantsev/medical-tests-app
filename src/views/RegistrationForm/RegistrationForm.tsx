@@ -53,6 +53,10 @@ export const RegistrationForm: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, toggleShowPassword] = useToggle(false);
 
+  const {
+    profile: { setState: setProfileState },
+  } = useAppDispatch();
+
   const methods = useForm<IFormData>({
     defaultValues,
     reValidateMode: 'onChange',
@@ -62,23 +66,27 @@ export const RegistrationForm: FC = () => {
   const onSubmit: SubmitHandler<IFormData> = async (data) => {
     console.log(data);
 
-    // try {
-    //   setIsLoading(true);
-    //   const response = await AuthService.login({
-    //     email: data.email.toLocaleLowerCase().trim(),
-    //     password: data.password,
-    //   });
+    try {
+      setIsLoading(true);
+      const response = await AuthService.signup({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        birthday: data.birthday ? data.birthday.toISO() || '' : '',
+        gender: data.gender,
+        email: data.email.toLocaleLowerCase().trim(),
+        password: data.password,
+      });
 
-    //   await SecureStore.setItemAsync('accessToken', response.data.accessToken);
+      await SecureStore.setItemAsync('accessToken', response.data.accessToken);
 
-    //   setState({ isAuth: true });
+      setProfileState({ isAuth: true });
 
-    //   replace('/');
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      replace('/');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

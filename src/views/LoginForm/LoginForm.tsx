@@ -41,7 +41,7 @@ export const LoginForm: FC = () => {
   const [showPassword, toggleShowPassword] = useToggle(false);
 
   const {
-    profile: { setState },
+    profile: { setState: setProfileState },
   } = useAppDispatch();
 
   const methods = useForm<IFormData>({
@@ -60,7 +60,7 @@ export const LoginForm: FC = () => {
 
       await SecureStore.setItemAsync('accessToken', response.data.accessToken);
 
-      setState({ isAuth: true });
+      setProfileState({ isAuth: true });
 
       replace('/');
     } catch (error) {
