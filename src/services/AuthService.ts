@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import instance from './axiosInstance';
+import { IProfile } from '../types/profile';
 
 class AuthService {
   private readonly instance: AxiosInstance;
@@ -10,6 +11,10 @@ class AuthService {
 
   public login(data: ILoginData) {
     return this.instance.post<IToken>('/login', data);
+  }
+
+  public getProfile() {
+    return this.instance.get<IProfile>('/profile');
   }
 }
 

@@ -18,9 +18,9 @@ const Wrapper = styled.View`
 const HomeLayout: FC = () => {
   const {
     medicalTest: { getResults },
-    profile: { setState: setProfileState },
+    profile: { getProfile },
   } = useAppDispatch();
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,14 +74,10 @@ const HomeLayout: FC = () => {
 
   useLayoutEffect(() => {
     setIsLoading(true);
-    SecureStore.getItemAsync('accessToken')
-      .then((accessToken) => {
-        console.log({ accessToken });
-
-        if (accessToken) {
-          setProfileState({ isAuth: true });
-        } else {
-          push('/auth');
+    getProfile()
+      .then((data) => {
+        if (!data) {
+          replace('/auth');
         }
       })
       .finally(() => {
@@ -111,7 +107,7 @@ const HomeLayout: FC = () => {
   );
 
   return (
-    <Layout>
+    <Layout showHeader>
       <Wrapper>{content}</Wrapper>
     </Layout>
   );
