@@ -31,14 +31,6 @@ const Root: FC = () => {
               }}
             />
             <Stack.Screen
-              name="results-load/index"
-              options={{
-                title: 'Загрузка анализов',
-                contentStyle: { backgroundColor: MD2Colors.white },
-                statusBarStyle: 'dark',
-              }}
-            />
-            <Stack.Screen
               name="medical-test/index"
               options={{
                 title: 'Анализы',
