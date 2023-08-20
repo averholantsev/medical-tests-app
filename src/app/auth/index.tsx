@@ -1,5 +1,5 @@
 import { Layout } from '@/src/components';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { LoginForm } from '@/src/views/LoginForm/LoginForm';
 
 const Auth: FC = () => {

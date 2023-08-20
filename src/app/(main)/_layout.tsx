@@ -1,6 +1,5 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { Tabs } from 'expo-router/tabs';
-import styled from 'styled-components/native';
 import TextSearchIcon from '@/assets/icons/text-box-search.svg';
 import HistoryIcon from '@/assets/icons/history.svg';
 import { MD2Colors } from 'react-native-paper';
@@ -10,7 +9,10 @@ const MainLayout: FC = () => {
 
   return (
     <Tabs
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: MD2Colors.deepPurple800,
+      }}
       sceneContainerStyle={{
         backgroundColor: MD2Colors.white,
         margin: 0,

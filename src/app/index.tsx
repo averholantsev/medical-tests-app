@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useState } from 'react';
+import React, { FC, useLayoutEffect, useState } from 'react';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { useAppDispatch } from '../redux/utils';

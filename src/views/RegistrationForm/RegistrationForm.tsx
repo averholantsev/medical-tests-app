@@ -48,7 +48,7 @@ const defaultValues: IFormData = {
 };
 
 export const RegistrationForm: FC = () => {
-  const { push, replace } = useRouter();
+  const { replace } = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, toggleShowPassword] = useToggle(false);
@@ -60,12 +60,11 @@ export const RegistrationForm: FC = () => {
   const methods = useForm<IFormData>({
     defaultValues,
     reValidateMode: 'onChange',
-    resolver: yupResolver(schema as any),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: yupResolver<any>(schema),
   });
 
   const onSubmit: SubmitHandler<IFormData> = async (data) => {
-    console.log(data);
-
     try {
       setIsLoading(true);
       const response = await AuthService.signup({

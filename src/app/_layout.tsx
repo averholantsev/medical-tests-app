@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { MD2Colors, PaperProvider } from 'react-native-paper';
 import { Stack } from 'expo-router';
 import { Settings } from 'luxon';

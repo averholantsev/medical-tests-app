@@ -1,6 +1,6 @@
 import { Layout, TestRow } from '@/src/components';
 import { useAppDispatch, useAppSelector } from '@/src/redux/utils';
-import { FC, Fragment, useEffect } from 'react';
+import React, { FC, Fragment, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import {
   ActivityIndicator,

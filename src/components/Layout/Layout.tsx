@@ -1,7 +1,5 @@
-import { useAppSelector } from '@/src/redux/utils';
 import { FC, PropsWithChildren } from 'react';
-import { SafeAreaView, StyleSheet, ViewStyle } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { ViewStyle } from 'react-native';
 import styled from 'styled-components/native';
 import { Header } from '..';
 

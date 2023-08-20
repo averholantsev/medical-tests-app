@@ -1,6 +1,6 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { LayoutRectangle } from 'react-native';
-import { Text, MD2Colors } from 'react-native-paper';
+import { MD2Colors } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 interface ILineChartProps {
@@ -36,8 +36,6 @@ const LineChart: FC<ILineChartProps> = ({ measureMin, measureMax, value }) => {
   const measurePosition = rect?.width
     ? Math.floor((value * rect.width) / measureMax)
     : measureMin;
-
-  console.log(value, measureMax, rect?.width, measurePosition);
 
   return (
     <Wrapper>

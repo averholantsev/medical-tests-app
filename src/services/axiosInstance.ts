@@ -10,7 +10,7 @@ async function requestInterceptor(config: AxiosRequestConfig) {
     config.headers[HEADER_AUTH_TOKEN] = `Bearer ${accessToken}`;
   }
 
-  console.log(config);
+  console.debug(config);
   return config;
 }
 
@@ -19,7 +19,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => requestInterceptor(config) as any
+  (config: AxiosRequestConfig) => requestInterceptor(config) as never
 );
 
 export default instance;

@@ -1,5 +1,5 @@
 import { Layout } from '@/src/components';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import styled from 'styled-components/native';
@@ -29,7 +29,7 @@ const ResultsLoad: FC = () => {
         type: ['image/jpeg', 'image/png', 'application/pdf'],
       });
 
-      console.log('file', result);
+      console.debug('file', result);
 
       if (!result.canceled && result.assets.length) {
         const isDone = await getResults(result.assets[0]);
@@ -49,12 +49,12 @@ const ResultsLoad: FC = () => {
     setIsLoading(true);
 
     try {
-      let result = await ImagePicker.launchImageLibraryAsync({
+      const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         quality: 1,
       });
 
-      console.log('image', result);
+      console.debug('image', result);
 
       if (!result.canceled && result.assets.length) {
         const isDone = await getResults(result.assets[0]);
