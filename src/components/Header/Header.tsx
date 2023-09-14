@@ -1,5 +1,6 @@
-import { useAppDispatch, useAppSelector } from '@/src/redux/utils';
+import { useStores } from '@/src/hooks/useStores';
 import { useRouter } from 'expo-router';
+import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { Button, Text } from 'react-native-paper';
 import styled from 'styled-components/native';
@@ -11,15 +12,11 @@ const ProfileView = styled.View`
   gap: 8px;
 `;
 
-const Header: FC = () => {
+const Header: FC = observer(() => {
   const { replace } = useRouter();
   const {
-    profile: { logout },
-  } = useAppDispatch();
-  const { name, isLoading } = useAppSelector((s) => ({
-    name: `${s.profile.profile?.firstName} ${s.profile.profile?.lastName}`,
-    isLoading: s.loading.effects.profile.logout,
-  }));
+    profileStore: { logout, profileName, isLoading },
+  } = useStores();
 
   const handleLogout = async () => {
     const result = await logout();
@@ -30,7 +27,7 @@ const Header: FC = () => {
 
   return (
     <ProfileView>
-      <Text>{name}</Text>
+      <Text>{profileName}</Text>
       <Button
         icon="logout"
         onPress={handleLogout}
@@ -41,6 +38,6 @@ const Header: FC = () => {
       </Button>
     </ProfileView>
   );
-};
+});
 
 export default Header;

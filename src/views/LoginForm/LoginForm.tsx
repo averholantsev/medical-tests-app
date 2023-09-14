@@ -9,7 +9,8 @@ import { useToggle } from '@/src/hooks/useToggle';
 import schema from './schema';
 import AuthService from '@/src/services/AuthService';
 import { useRouter } from 'expo-router';
-import { useAppDispatch } from '@/src/redux/utils';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '@/src/hooks/useStores';
 
 interface IFormData {
   email: string;
@@ -34,15 +35,14 @@ const defaultValues: IFormData = {
   password: '',
 };
 
-export const LoginForm: FC = () => {
+export const LoginForm: FC = observer(() => {
   const { push, replace } = useRouter();
+  const {
+    profileStore: { setIsAuth },
+  } = useStores();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, toggleShowPassword] = useToggle(false);
-
-  const {
-    profile: { setState: setProfileState },
-  } = useAppDispatch();
 
   const methods = useForm<IFormData>({
     defaultValues,
@@ -60,7 +60,7 @@ export const LoginForm: FC = () => {
 
       await SecureStore.setItemAsync('accessToken', response.data.accessToken);
 
-      setProfileState({ isAuth: true });
+      setIsAuth(true);
 
       replace('/');
     } catch (error) {
@@ -119,4 +119,4 @@ export const LoginForm: FC = () => {
       </Button>
     </StyledRootView>
   );
-};
+});

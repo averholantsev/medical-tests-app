@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { ViewStyle } from 'react-native';
 import styled from 'styled-components/native';
-import { Header } from '..';
+import Header from '@/src/components/Header/Header';
 
 interface ILayout {
   className?: string;

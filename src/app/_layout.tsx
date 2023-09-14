@@ -3,14 +3,15 @@ import { MD2Colors, PaperProvider } from 'react-native-paper';
 import { Stack } from 'expo-router';
 import { Settings } from 'luxon';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import { StoreProvider } from '../stores/Context';
+import { RootStore } from '../stores/RootStore';
 
 const Root: FC = () => {
   Settings.defaultLocale = 'ru';
+  const store = new RootStore();
 
   return (
-    <Provider store={store}>
+    <StoreProvider store={store}>
       <PaperProvider>
         <SafeAreaProvider>
           <Stack>
@@ -59,7 +60,7 @@ const Root: FC = () => {
           </Stack>
         </SafeAreaProvider>
       </PaperProvider>
-    </Provider>
+    </StoreProvider>
   );
 };
 

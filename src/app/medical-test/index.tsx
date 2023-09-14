@@ -1,5 +1,6 @@
 import { Layout, TestRow } from '@/src/components';
-import { useAppDispatch, useAppSelector } from '@/src/redux/utils';
+import { useStores } from '@/src/hooks/useStores';
+import { observer } from 'mobx-react-lite';
 import React, { FC, Fragment, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import {
@@ -9,23 +10,16 @@ import {
   Text,
 } from 'react-native-paper';
 
-const MedicalTest: FC = () => {
+const MedicalTest: FC = observer(() => {
   const {
-    medicalTest: { getDictionary },
-  } = useAppDispatch();
-  const { medicalTest, isLoadingDictionary, dictionary, error } =
-    useAppSelector((s) => ({
-      medicalTest: s.medicalTest.result,
-      dictionary: s.medicalTest.dictionary,
-      error: s.medicalTest.error,
-      isLoadingDictionary: s.loading.effects.medicalTest.getDictionary,
-    }));
+    medicalTestStore: { getDictionary, isLoading, dictionary, result, error },
+  } = useStores();
 
   useEffect(() => {
     getDictionary();
   }, []);
 
-  if (isLoadingDictionary) {
+  if (isLoading) {
     return (
       <Layout style={{ justifyContent: 'center' }}>
         <ActivityIndicator size="large" color={MD2Colors.tealA700} animating />
@@ -46,13 +40,13 @@ const MedicalTest: FC = () => {
   return (
     <Layout>
       <ScrollView>
-        {(Object.keys(medicalTest) as Array<keyof typeof medicalTest>).map(
+        {(Object.keys(result) as Array<keyof typeof result>).map(
           (key, index) => (
             <Fragment key={`${key}_${index}`}>
               <TestRow
                 status="normal"
                 dictionary={dictionary[key]}
-                value={medicalTest[key]}
+                value={result[key]}
               />
               <Divider style={{ marginHorizontal: 10 }} />
             </Fragment>
@@ -61,6 +55,6 @@ const MedicalTest: FC = () => {
       </ScrollView>
     </Layout>
   );
-};
+});
 
 export default MedicalTest;

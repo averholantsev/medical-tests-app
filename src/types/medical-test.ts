@@ -72,3 +72,5 @@ export interface IMedicalDictionary {
   hint: string | null;
   children: IMedicalDictionaryChild[];
 }
+
+export type IDictionary = Record<string, IMedicalDictionary>;

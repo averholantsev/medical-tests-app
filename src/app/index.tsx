@@ -1,8 +1,9 @@
-import React, { FC, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
-import { useRouter } from 'expo-router';
-import { useAppDispatch } from '../redux/utils';
 import styled from 'styled-components/native';
+import { observer } from 'mobx-react-lite';
+import { useRouter } from 'expo-router';
+import { useStores } from '../hooks/useStores';
 
 const Wrapper = styled.View`
   align-items: center;
@@ -10,29 +11,20 @@ const Wrapper = styled.View`
   flex: 1;
 `;
 
-const HomeLayout: FC = () => {
-  const {
-    profile: { getProfile },
-  } = useAppDispatch();
+const HomeLayout: FC = observer(() => {
   const { replace } = useRouter();
+  const {
+    profileStore: { isLoading, getProfile },
+  } = useStores();
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useLayoutEffect(() => {
-    setIsLoading(true);
-    getProfile()
-      .then((data) => {
-        if (!data) {
-          replace('/auth');
-        } else {
-          replace('/(main)');
-        }
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-      });
+  useEffect(() => {
+    getProfile().then((data) => {
+      if (!data) {
+        replace('/auth');
+      } else {
+        replace('/(main)');
+      }
+    });
   }, []);
 
   return (
@@ -42,6 +34,6 @@ const HomeLayout: FC = () => {
       )}
     </Wrapper>
   );
-};
+});
 
 export default HomeLayout;

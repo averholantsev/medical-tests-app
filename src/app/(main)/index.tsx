@@ -5,7 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 import styled from 'styled-components/native';
 import { ActivityIndicator, Button, MD2Colors, Text } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import { useAppDispatch } from '@/src/redux/utils';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '@/src/hooks/useStores';
 
 const Wrapper = styled.View`
   align-items: center;
@@ -14,11 +15,11 @@ const Wrapper = styled.View`
   gap: 16px;
 `;
 
-const ResultsLoad: FC = () => {
-  const {
-    medicalTest: { getResults },
-  } = useAppDispatch();
+const ResultsLoad: FC = observer(() => {
   const { push } = useRouter();
+  const {
+    medicalTestStore: { getResults },
+  } = useStores();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -94,6 +95,6 @@ const ResultsLoad: FC = () => {
       <Wrapper>{content}</Wrapper>
     </Layout>
   );
-};
+});
 
 export default ResultsLoad;
