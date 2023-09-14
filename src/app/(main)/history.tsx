@@ -1,11 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { Layout } from '@/src/components';
+import { useRouter } from 'expo-router';
 
 const HistoryLayout = () => {
+  const { push } = useRouter();
+
   return (
     <Layout showHeader>
-      <Text>Test History</Text>
+      <Button onPress={() => push('/medical-test')}>Показать результаты</Button>
     </Layout>
   );
 };
